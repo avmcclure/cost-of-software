@@ -1,6 +1,5 @@
 # Cost of Software
 
-* Who is this talk for?
 * What we'll talk about
   * Types of costs
   * How to evaluate costs
@@ -53,9 +52,17 @@
     * How to evaluate
       * How will this make my _______ feel? (customers/engineers/boss)
     * Example
-      * 
+      * Working on a defect vs shipping a new feature
 
 * How to evaluate costs holistically
   * Determine your value profile
-  * X axis is the 4 categories
-  * Y axis 
+    * X axis is the 4 categories
+    * Y axis is the relative value (scale 1 to 10)
+  * This is going to change based to a variety of factors
+    * Industry
+    * Financials
+    * Relationships
+
+* Holistic Examples
+  * Laptop example
+  * Optimization of cloud infrastructure
