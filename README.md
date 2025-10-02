@@ -1,68 +1,68 @@
 # Cost of Software
 
-* What we'll talk about
-  * Types of costs
-  * How to evaluate costs
-  * Tools for making decisions about and addressing costs
+- What we'll talk about
+  - Types of costs
+  - How to evaluate costs
+  - Tools for making decisions about and addressing costs
 
-* Types of costs
-  * Monetary
-    * Sources
-      * Salaries
-      * Hardware
-      * Licenses
-      * Hosting
-    * How to evaluate
-      * Using arithmetic
-    * Example
-      * Cheaper vs more expensive laptops
-  * Time
-    * Sources
-      * Waiting on things to process/build
-      * Context switching
-      * Missing the target
-    * How to evaluate
-      * Return on investment
-    * Example
-      * Context switching example
-  * Knowledge
-    * Sources
-      * Silos/Distribution
-      * Best/emergent practices
-    * How to evaluate
-      * Could we share knowledge across the team/organization with this?
-      * Could we try a new practice/technology/idea with this?
-    * Example
-      * Least qualified implementer example
-  * Risk
-    * Sources
-      * Security vulnerabilities
-      * Lawsuits
-    * How to evaluate
-      * How could this hurt me?
-      * How could this make me feel more secure?
-    * Example
-      * Choosing an AI provider (indemnification)
-  * Satisfaction
-    * Sources
-      * 2 AM calls
-      * Customer experience
-      * Flakey builds
-      * Boring work
-    * How to evaluate
-      * How will this make my _______ feel? (customers/engineers/boss)
-    * Example
-      * Working on a defect vs shipping a new feature
+- Types of costs
+  - Monetary
+    - Sources
+      - Salaries
+      - Hardware
+      - Licenses
+      - Hosting
+    - How to evaluate
+      - Using arithmetic
+    - Example
+      - Cheaper vs more expensive laptops
+  - Time
+    - Sources
+      - Waiting on things to process/build
+      - Context switching
+      - Missing the target
+    - How to evaluate
+      - Return on investment
+    - Example
+      - Context switching example
+  - Knowledge
+    - Sources
+      - Silos/Distribution
+      - Best/emergent practices
+    - How to evaluate
+      - Could we share knowledge across the team/organization with this?
+      - Could we try a new practice/technology/idea with this?
+    - Example
+      - Least qualified implementer example
+  - Risk
+    - Sources
+      - Security vulnerabilities
+      - Lawsuits
+    - How to evaluate
+      - How could this hurt me?
+      - How could this make me feel more secure?
+    - Example
+      - Choosing an AI provider (indemnification)
+  - Satisfaction
+    - Sources
+      - 2 AM calls
+      - Customer experience
+      - Flakey builds
+      - Boring work
+    - How to evaluate
+      - How will this make my **\_\_\_** feel? (customers/engineers/boss)
+    - Example
+      - Working on a defect vs shipping a new feature
 
-* How to evaluate costs holistically
-  * Determine your value profile
-    * X axis is the 4 categories
-    * Y axis is the relative value (scale 1 to 10)
-  * This is going to change based to a variety of factors
-    * Industry
-    * Financials
-    * Relationships
+- How to evaluate costs holistically
+  - Determine your value profile
+    - X axis is the 4 categories
+    - Y axis is the relative value (scale 1 to 10)
+  - This is going to change based to a variety of factors
+    - Industry
+    - Financials
+    - Relationships
 
-* Holistic Examples
-  * Laptop example
-  * Optimization of cloud infrastructure
+- Holistic Examples
+  - Laptop example
+  - Optimization of cloud infrastructure

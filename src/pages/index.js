@@ -1,162 +1,234 @@
-import React, { useState, useMemo } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import React, { useState, useMemo } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
-// Conversion factors in seconds
-const UNIT_SECONDS = {
-    seconds: 1,
-    minutes: 60,
-    hours: 3600,
-    days: 86400,
-    weeks: 604800,
-    months: 2629746, // avg month ~30.44 days
-    years: 31556952, // avg year ~365.24 days
-};
-
-const units = Object.keys(UNIT_SECONDS);
-
-const InputField = ({ label, value, onValueChange, unit, onUnitChange }) => (
-    <div className="flex flex-col gap-1 w-full">
-        <label className="font-medium text-gray-700">{label}</label>
-        <div className="flex gap-2">
-            <input
-                type="number"
-                className="border rounded p-2 w-2/3"
-                value={value}
-                min="0"
-                onChange={(e) => onValueChange(Number(e.target.value))}
-            />
-            <select
-                className="border rounded p-2 w-1/3"
-                value={unit}
-                onChange={(e) => onUnitChange(e.target.value)}
-            >
-                {units.map((u) => (
-                    <option key={u} value={u}>{u}</option>
-                ))}
-            </select>
-        </div>
-    </div>
-);
-
-function humanizeSeconds(seconds) {
-    if (seconds <= 0) return "0 seconds";
-    const years = Math.floor(seconds / UNIT_SECONDS.years);
-    seconds %= UNIT_SECONDS.years;
-    const months = Math.floor(seconds / UNIT_SECONDS.months);
-    seconds %= UNIT_SECONDS.months;
-    const days = Math.floor(seconds / UNIT_SECONDS.days);
-    seconds %= UNIT_SECONDS.days;
-    const hours = Math.floor(seconds / UNIT_SECONDS.hours);
-    seconds %= UNIT_SECONDS.hours;
-    const minutes = Math.floor(seconds / UNIT_SECONDS.minutes);
-    seconds = Math.floor(seconds % UNIT_SECONDS.minutes);
-
-    const parts = [];
-    if (years) parts.push(`${years}y`);
-    if (months) parts.push(`${months}mo`);
-    if (days) parts.push(`${days}d`);
-    if (hours) parts.push(`${hours}h`);
-    if (minutes) parts.push(`${minutes}m`);
-    if (seconds) parts.push(`${seconds}s`);
-    return parts.join(" ");
-}
+// Replaced local InputField and UNIT_SECONDS logic with imports
+import calculateROI, { humanizeSeconds } from '../utils/recoup';
+import { TimeUnit } from '../utils/time-unit';
 
 export default function IndexPage() {
-    const [freqValue, setFreqValue] = useState(1);
-    const [freqUnit, setFreqUnit] = useState("days");
-    const [durationValue, setDurationValue] = useState(30);
-    const [durationUnit, setDurationUnit] = useState("minutes");
-    const [optValue, setOptValue] = useState(8);
-    const [optUnit, setOptUnit] = useState("hours");
-    const [savingValue, setSavingValue] = useState(5);
-    const [savingUnit, setSavingUnit] = useState("minutes");
+  const [freqValue, setFreqValue] = useState(5);
+  const [freqUnit, setFreqUnit] = useState(TimeUnit.DAYS);
+  const [durationValue, setDurationValue] = useState(10);
+  const [durationUnit, setDurationUnit] = useState(TimeUnit.MINUTES);
+  const [optValue, setOptValue] = useState(5);
+  const [optUnit, setOptUnit] = useState(TimeUnit.MINUTES);
+  const [savingValue, setSavingValue] = useState(9);
+  const [savingUnit, setSavingUnit] = useState(TimeUnit.MINUTES);
 
-    const results = useMemo(() => {
-        const freqPerSecond = freqValue / UNIT_SECONDS[freqUnit];
-        const optSeconds = optValue * UNIT_SECONDS[optUnit];
-        const saveSeconds = savingValue * UNIT_SECONDS[savingUnit];
+  const results = useMemo(() => {
+    return calculateROI({
+      freqValue,
+      freqUnit,
+      optValue,
+      optUnit,
+      savingValue,
+      savingUnit,
+    });
+  }, [
+    freqValue,
+    freqUnit,
+    durationValue,
+    durationUnit,
+    optValue,
+    optUnit,
+    savingValue,
+    savingUnit,
+  ]);
 
-        if (freqPerSecond <= 0 || saveSeconds <= 0) {
-            return {
-                recoup: Infinity,
-                message: "Never recoup (no frequency or no savings)",
-                yearly: [],
-                chartData: [],
-            };
-        }
+  // Frequency units: singular display, mapped to TimeUnit
+  const freqUnits = [
+    { label: 'year', value: TimeUnit.YEARS },
+    { label: 'month', value: TimeUnit.MONTHS },
+    { label: 'week', value: TimeUnit.WEEKS },
+    { label: 'day', value: TimeUnit.DAYS },
+    { label: 'hour', value: TimeUnit.HOURS },
+    { label: 'minute', value: TimeUnit.MINUTES },
+  ];
+  const timeUnits = [
+    TimeUnit.SECONDS,
+    TimeUnit.MINUTES,
+    TimeUnit.HOURS,
+    TimeUnit.DAYS,
+  ];
 
-        const savingPerSecond = freqPerSecond * saveSeconds;
-        const recoupSeconds = optSeconds / savingPerSecond;
-
-        const horizons = [1, 5, 10];
-        const yearly = horizons.map((years) => {
-            const totalSaved = years * UNIT_SECONDS.years * savingPerSecond;
-            const net = totalSaved - optSeconds;
-            return { years, totalSaved, net };
-        });
-
-        const chartData = Array.from({ length: 11 }, (_, i) => {
-            const totalSaved = i * UNIT_SECONDS.years * savingPerSecond;
-            return {
-                year: i,
-                gross: totalSaved / 3600,
-                net: (totalSaved - optSeconds) / 3600,
-            };
-        });
-
-        return {
-            recoup: recoupSeconds,
-            message: humanizeSeconds(recoupSeconds),
-            yearly,
-            chartData,
-        };
-    }, [freqValue, freqUnit, durationValue, durationUnit, optValue, optUnit, savingValue, savingUnit]);
-
-    return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
-            <div className="max-w-3xl w-full bg-white shadow-md rounded-xl p-6 flex flex-col gap-6">
-                <h1 className="text-2xl font-bold text-gray-800">Recoup Time Calculator</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField label="Frequency" value={freqValue} onValueChange={setFreqValue} unit={freqUnit} onUnitChange={setFreqUnit} />
-                    <InputField label="Duration (per run)" value={durationValue} onValueChange={setDurationValue} unit={durationUnit} onUnitChange={setDurationUnit} />
-                    <InputField label="Optimization time" value={optValue} onValueChange={setOptValue} unit={optUnit} onUnitChange={setOptUnit} />
-                    <InputField label="Time savings (per run)" value={savingValue} onValueChange={setSavingValue} unit={savingUnit} onUnitChange={setSavingUnit} />
-                </div>
-
-                <div className="bg-blue-50 rounded p-4">
-                    <h2 className="text-xl font-semibold mb-2">Results</h2>
-                    {results.recoup === Infinity ? (
-                        <p>{results.message}</p>
-                    ) : (
-                        <>
-                            <p><strong>Recoup time:</strong> {results.message}</p>
-                            <ul className="list-disc ml-6 mt-2">
-                                {results.yearly.map((y) => (
-                                    <li key={y.years}>
-                                        After {y.years} year(s): saved {humanizeSeconds(y.totalSaved)} total, net {humanizeSeconds(y.net)}
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                </div>
-
-                {results.chartData.length > 0 && (
-                    <div className="h-80">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={results.chartData}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="year" label={{ value: "Years", position: "insideBottomRight", offset: -5 }} />
-                                <YAxis label={{ value: "Hours", angle: -90, position: "insideLeft" }} />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="gross" stroke="#4f46e5" name="Gross Saved (hrs)" />
-                                <Line type="monotone" dataKey="net" stroke="#10b981" name="Net Saved (hrs)" />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
-                )}
-            </div>
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
+      <div className="max-w-3xl w-full bg-white shadow-md rounded-xl p-6 flex flex-col gap-6">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Process Optimization ROI Calculator
+        </h1>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span>My process runs</span>
+            <input
+              type="number"
+              className="border rounded p-2 w-20"
+              value={freqValue}
+              min="0"
+              onChange={(e) => setFreqValue(parseFloat(e.target.value) || 0)}
+            />
+            <span>times a</span>
+            <select
+              className="border rounded p-2"
+              value={freqUnit}
+              onChange={(e) => setFreqUnit(e.target.value)}
+            >
+              {freqUnits.map((u) => (
+                <option key={u.value} value={u.value}>
+                  {u.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span>It takes</span>
+            <input
+              type="number"
+              className="border rounded p-2 w-20"
+              value={durationValue}
+              min="0"
+              onChange={(e) => setDurationValue(parseFloat(e.target.value) || 0)}
+            />
+            <select
+              className="border rounded p-2"
+              value={durationUnit}
+              onChange={(e) => setDurationUnit(e.target.value)}
+            >
+              {timeUnits.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
+            <span>per run</span>
+          </div>
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span>I want to reduce the runtime by</span>
+            <input
+              type="number"
+              className="border rounded p-2 w-20"
+              value={savingValue}
+              min="0"
+              onChange={(e) => setSavingValue(parseFloat(e.target.value) || 0)}
+            />
+            <select
+              className="border rounded p-2"
+              value={savingUnit}
+              onChange={(e) => setSavingUnit(e.target.value)}
+            >
+              {timeUnits.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span>I will work on it for</span>
+            <input
+              type="number"
+              className="border rounded p-2 w-20"
+              value={optValue}
+              min="0"
+              onChange={(e) => setOptValue(parseFloat(e.target.value) || 0)}
+            />
+            <select
+              className="border rounded p-2"
+              value={optUnit}
+              onChange={(e) => setOptUnit(e.target.value)}
+            >
+              {timeUnits.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-    );
+
+        <div className="bg-blue-50 rounded p-4">
+          <h2 className="text-xl font-semibold mb-2">Results</h2>
+          {results.roi === null ? (
+            <p>{results.message}</p>
+          ) : (
+            <>
+              <p className="mt-2">
+                <strong>Runs until positive ROI:</strong> {results.minRunsForPositiveROI}
+              </p>
+              <p className="mt-1">
+                <strong>Days until positive ROI:</strong> {results.daysUntilPositiveROI !== null ? results.daysUntilPositiveROI.toFixed(2) : 'N/A'}
+              </p>
+              <table className="table-auto w-full mt-4 bg-white rounded shadow">
+                <thead>
+                  <tr>
+                    <th className="px-2 py-1 text-left">Time since</th>
+                    <th className="px-2 py-1 text-right">Time Saved</th>
+                    <th className="px-2 py-1 text-right">ROI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.yearly.map((y) => (
+                    <tr key={y.label}>
+                      <td className="px-2 py-1">{y.label}</td>
+                      <td className="px-2 py-1 text-right">{humanizeSeconds(y.totalSaved)}</td>
+                      <td className="px-2 py-1 text-right">{(y.roi * 100).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+        </div>
+
+        {results.chartData.length > 0 && (
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={results.chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="year"
+                  label={{
+                    value: 'Years',
+                    position: 'insideBottomRight',
+                    offset: -5,
+                  }}
+                />
+                <YAxis
+                  label={{ value: 'Hours', angle: -90, position: 'insideLeft' }}
+                />
+                <Tooltip formatter={(value, name, props) => {
+                  if (name === 'ROI') {
+                    return [`${(value * 100).toFixed(2)}%`, name];
+                  }
+                  return [value, name];
+                }} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="gross"
+                  stroke="#4f46e5"
+                  name="Gross Saved (hrs)"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="net"
+                  stroke="#10b981"
+                  name="Net Saved (hrs)"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
