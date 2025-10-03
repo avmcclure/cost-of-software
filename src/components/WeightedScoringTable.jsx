@@ -48,7 +48,6 @@ function WeightedScoringTable({
               >
                 Weight (%)
               </th>
-              <th className="px-3 py-2 text-right">Weight (%)</th>
               {solutions.map((sol, sIdx) => (
                 <th
                   key={sIdx}
