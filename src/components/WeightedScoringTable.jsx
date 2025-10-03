@@ -48,17 +48,18 @@ function WeightedScoringTable({
               >
                 Weight (%)
               </th>
+              <th className="px-3 py-2 text-right">Weight (%)</th>
               {solutions.map((sol, sIdx) => (
                 <th
                   key={sIdx}
-                  className={`px-3 py-2 ${isEditable ? 'text-left' : 'text-right'}`}
+                  className="px-3 py-2 text-right"
                 >
                   {isEditable ? (
                     <>
                       <input
                         value={sol}
                         onChange={(e) => editSolution(sIdx, e.target.value)}
-                        className="border rounded px-2 py-1 w-28 focus:outline-blue-500"
+                        className="border rounded px-2 py-1 w-28 text-right focus:outline-blue-500"
                         disabled={!isEditable}
                       />
                       <button
@@ -106,7 +107,7 @@ function WeightedScoringTable({
                     <span className="font-medium text-gray-800">{c.name}</span>
                   )}
                 </td>
-                <td className="px-3 py-2" data-testid={`weight-${c.name}`}>
+                <td className="px-3 py-2 text-right" data-testid={`weight-${c.name}`}>
                   {isEditable ? (
                     <input
                       type="number"
@@ -114,7 +115,7 @@ function WeightedScoringTable({
                       min={0}
                       max={100}
                       onChange={(e) => editWeight(cIdx, e.target.value)}
-                      className="border rounded px-2 py-1 w-16 focus:outline-blue-500"
+                      className="border rounded px-2 py-1 w-16 text-right focus:outline-blue-500"
                       disabled={!isEditable}
                     />
                   ) : (
@@ -126,7 +127,7 @@ function WeightedScoringTable({
                 {solutions.map((_, sIdx) => (
                   <td
                     key={sIdx}
-                    className="px-3 py-2"
+                    className="px-3 py-2 text-right"
                     data-testid={`rating-${c.name}-solution-${solutions[sIdx]}`}
                     data-rating-criterion={c.name}
                     data-rating-solution={solutions[sIdx]}
@@ -135,7 +136,7 @@ function WeightedScoringTable({
                       <select
                         value={ratings[cIdx][sIdx]}
                         onChange={(e) => editRating(cIdx, sIdx, e.target.value)}
-                        className="border rounded px-2 py-1 w-20 text-center focus:outline-blue-500"
+                        className="border rounded px-2 py-1 w-20 text-right focus:outline-blue-500"
                         disabled={!isEditable}
                       >
                         {[...Array(10)].map((_, i) => (
@@ -162,7 +163,7 @@ function WeightedScoringTable({
               {scores.map((score, sIdx) => (
                 <td
                   key={sIdx}
-                  className={`px-3 py-2 font-semibold text-center ${isWeightValid && score === bestScore ? 'bg-green-100 text-green-700 border-2 border-green-400' : ''}`}
+                  className={`px-3 py-2 font-semibold text-right ${isWeightValid && score === bestScore ? 'bg-green-100 text-green-700 border-2 border-green-400' : ''}`}
                   data-testid={`score-solution-${solutions[sIdx]}`}
                   data-score-solution={solutions[sIdx]}
                 >
