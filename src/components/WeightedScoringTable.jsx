@@ -80,7 +80,11 @@ function WeightedScoringTable({
           <tbody>
             {criteria.map((c, cIdx) => (
               <tr key={cIdx} className="border-t">
-                <td className="px-3 py-2" data-testid={`criterion-${c.name}`} data-criterion={c.name}>
+                <td
+                  className="px-3 py-2"
+                  data-testid={`criterion-${c.name}`}
+                  data-criterion={c.name}
+                >
                   {isEditable ? (
                     <>
                       <input
@@ -114,11 +118,19 @@ function WeightedScoringTable({
                       disabled={!isEditable}
                     />
                   ) : (
-                    <span className="font-medium text-gray-800">{c.weight}</span>
+                    <span className="font-medium text-gray-800">
+                      {c.weight}
+                    </span>
                   )}
                 </td>
                 {solutions.map((_, sIdx) => (
-                  <td key={sIdx} className="px-3 py-2" data-testid={`rating-${c.name}-solution-${solutions[sIdx]}`} data-rating-criterion={c.name} data-rating-solution={solutions[sIdx]}>
+                  <td
+                    key={sIdx}
+                    className="px-3 py-2"
+                    data-testid={`rating-${c.name}-solution-${solutions[sIdx]}`}
+                    data-rating-criterion={c.name}
+                    data-rating-solution={solutions[sIdx]}
+                  >
                     {isEditable ? (
                       <select
                         value={ratings[cIdx][sIdx]}
@@ -127,11 +139,15 @@ function WeightedScoringTable({
                         disabled={!isEditable}
                       >
                         {[...Array(10)].map((_, i) => (
-                          <option key={i + 1} value={i + 1}>{i + 1}</option>
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}
+                          </option>
                         ))}
                       </select>
                     ) : (
-                      <span className="font-medium text-gray-800">{ratings[cIdx][sIdx]}</span>
+                      <span className="font-medium text-gray-800">
+                        {ratings[cIdx][sIdx]}
+                      </span>
                     )}
                   </td>
                 ))}

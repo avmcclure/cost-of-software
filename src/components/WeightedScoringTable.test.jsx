@@ -43,8 +43,12 @@ describe('WeightedScoringTable user interactions', () => {
       />
     );
     const container = screen.getByRole('table');
-    expect(container.querySelector('[data-criterion="Monetary"]')).toBeInTheDocument();
-    expect(container.querySelector('[data-score-solution="Solution 1"]')).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-criterion="Monetary"]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('[data-score-solution="Solution 1"]')
+    ).toBeInTheDocument();
   });
 
   test('shows best solution highlight', () => {
@@ -69,7 +73,9 @@ describe('WeightedScoringTable user interactions', () => {
       />
     );
     const container = screen.getByRole('table');
-    const bestCell = container.querySelector('[data-score-solution="Solution 1"]');
+    const bestCell = container.querySelector(
+      '[data-score-solution="Solution 1"]'
+    );
     expect(bestCell).toHaveClass('bg-green-100');
   });
 
@@ -96,7 +102,9 @@ describe('WeightedScoringTable user interactions', () => {
       />
     );
     const container = screen.getByRole('table');
-    const ratingCell = container.querySelector('[data-rating-criterion="Monetary"][data-rating-solution="Solution 1"]');
+    const ratingCell = container.querySelector(
+      '[data-rating-criterion="Monetary"][data-rating-solution="Solution 1"]'
+    );
     const select = within(ratingCell).getByDisplayValue('5');
     await userEvent.selectOptions(select, '8');
     expect(editRating).toHaveBeenCalled();

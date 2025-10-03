@@ -44,7 +44,9 @@ describe('WeightedScoringPanel user interactions', () => {
     const input = screen.getAllByDisplayValue('Solution 1')[0];
     await userEvent.clear(input);
     await userEvent.type(input, 'New Solution');
-    expect(screen.getByTestId('score-solution-New Solution')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('score-solution-New Solution')
+    ).toBeInTheDocument();
   });
 
   test('can edit criterion name', async () => {

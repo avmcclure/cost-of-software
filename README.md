@@ -5,6 +5,7 @@ A collection of tools to help you save some napkins or scratch paper.
 Partially vibe coded with general apathy by [Alex McClure](https://github.com/avmcclure)
 
 ## Technologies Used
+
 - [Gatsby](https://www.gatsbyjs.com/)
 - [React](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -13,10 +14,12 @@ Partially vibe coded with general apathy by [Alex McClure](https://github.com/av
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js
 - npm or yarn
 
 ### Installation
+
 1. Clone the repository:
    ```sh
    git clone https://github.com/your-username/cost-of-software.git
@@ -28,22 +31,27 @@ Partially vibe coded with general apathy by [Alex McClure](https://github.com/av
    ```
 
 ### Running the Development Server
+
 ```sh
 npm run develop
 ```
+
 The app will be available at `http://localhost:8000`.
 
 ### Building for Production
+
 ```sh
 npm run build
 ```
 
 ### Running Tests
+
 ```sh
 npm test
 ```
 
 ## Project Structure
+
 ```
 ├── src/
 │   ├── components/         # React components
@@ -58,7 +66,9 @@ npm test
 ```
 
 ## Contributing
+
 Pull requests are welcome. I make no guarantees about response time. You can always just fork it too.
 
 ## License
-This project is licensed under the WTFPL (Do What The F*ck You Want To Public License). See the LICENSE file for details.
+
+This project is licensed under the WTFPL (Do What The F\*ck You Want To Public License). See the LICENSE file for details.

@@ -88,7 +88,7 @@ function WeightedScoringPanel() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
       <div className="max-w-4xl w-full bg-white shadow-md rounded-xl p-8 flex flex-col gap-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          Weighted Scoring Model
+          Weighted Scoring
         </h1>
         <label className="flex items-center gap-2 mb-4">
           <input

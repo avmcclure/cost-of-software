@@ -63,9 +63,7 @@ export default function ROICalculatorPage() {
       <Header />
       <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
         <div className="max-w-3xl w-full bg-white shadow-md rounded-xl p-6 flex flex-col gap-6">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Process Optimization ROI Calculator
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-800">ROI Calculator</h1>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 whitespace-nowrap">
               <span>My process runs</span>
@@ -120,7 +118,9 @@ export default function ROICalculatorPage() {
                 className="border rounded p-2 w-20"
                 value={savingValue}
                 min="0"
-                onChange={(e) => setSavingValue(parseFloat(e.target.value) || 0)}
+                onChange={(e) =>
+                  setSavingValue(parseFloat(e.target.value) || 0)
+                }
               />
               <select
                 className="border rounded p-2"
@@ -206,22 +206,39 @@ export default function ROICalculatorPage() {
                     dataKey="year"
                     label={{
                       value: 'Years',
-                      position: 'insideBottomRight',
-                      offset: -5,
+                      position: 'bottom',
+                      offset: 0,
+                      style: { textAnchor: 'middle', fontSize: 13 },
                     }}
+                    tick={{ fontSize: 13 }}
                   />
                   <YAxis
-                    label={{ value: 'Hours', angle: -90, position: 'insideLeft' }}
+                    label={{
+                      value: 'Hours',
+                      angle: -90,
+                      position: 'left',
+                      dy: 0,
+                      offset: -8,
+                      style: { textAnchor: 'middle', fontSize: 13 },
+                    }}
+                    tick={{ fontSize: 13 }}
                   />
                   <Tooltip
-                    formatter={(value, name, props) => {
+                    formatter={(value, name) => {
                       if (name === 'ROI') {
                         return [`${(value * 100).toFixed(2)}%`, name];
                       }
                       return [value, name];
                     }}
                   />
-                  <Legend />
+                  <Legend
+                    formatter={(value) => (
+                      <span style={{ color: '#374151', fontSize: 13 }}>
+                        {value}
+                      </span>
+                    )}
+                    wrapperStyle={{ paddingTop: 6 }}
+                  />
                   <Line
                     type="monotone"
                     dataKey="gross"
