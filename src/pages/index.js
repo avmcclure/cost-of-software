@@ -28,19 +28,19 @@ export default function IndexPage() {
               to="/roi-calculator"
               className="text-blue-600 hover:underline text-lg font-medium"
             >
-              ROI Calculator
+              Process Optimization ROI Calculator
             </Link>
             <Link
               to="/weighted-scoring"
               className="text-blue-600 hover:underline text-lg font-medium"
             >
-              Weighted Scoring
+              Weighted Scoring Model Calculator
             </Link>
             <Link
               to="/cloud-roi"
               className="text-blue-600 hover:underline text-lg font-medium"
             >
-              Cloud ROI
+              Cloud Architecture Cost Calculator
             </Link>
           </nav>
         </div>

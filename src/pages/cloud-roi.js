@@ -197,7 +197,7 @@ export default function CloudROICalculator() {
       <Header />
       <main className="flex-1 flex flex-col items-center justify-center">
         <div className="max-w-3xl w-full bg-white shadow-md rounded-xl p-8 flex flex-col gap-8">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Cloud ROI</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Cloud Architecture Cost Calculator</h1>
           <form className="flex flex-col gap-4">
             <div className="flex items-center mb-4">
               <label
