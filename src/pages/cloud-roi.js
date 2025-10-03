@@ -33,16 +33,12 @@ export default function CloudROICalculator() {
     month,
     environments
   ) {
-    // Recurring monthly cost scales with environments, but the one-time hours cost does NOT.
-    // Total = (costPerMonth * month * environments) + (hoursWorked * costPerHour)
     const recurring = Number(costPerMonth) * month * Number(environments);
     const oneTime = Number(hoursWorked) * Number(costPerHour);
     return recurring + oneTime;
   }
 
-  // Key horizons for the table
   const horizons = [1, 3, 6, 12, 24, 36, 60, 120];
-  // Chart data: include month 0 so the chart starts at 0 years, then year intervals (12, 24, ..., 120 months)
   const yearTicks = Array.from({ length: 10 }, (_, i) => (i + 1) * 12);
   const initialPoint = {
     month: 0,
@@ -82,7 +78,6 @@ export default function CloudROICalculator() {
     })),
   ];
 
-  // Table data: key horizons, with humanized labels
   function humanizeMonth(month) {
     if (month % 12 === 0) {
       const years = month / 12;
@@ -111,7 +106,6 @@ export default function CloudROICalculator() {
     };
   });
 
-  // Find the first intersection month (continuous, up to 1000 years)
   function findIntersectionContinuous() {
     let prevA = monthlyTotal(
       inputs.a_costPerMonth,
@@ -156,7 +150,6 @@ export default function CloudROICalculator() {
     return null;
   }
 
-  // Humanize the intersection month
   function humanizeIntersection(month) {
     if (month === 0) return 'Now';
     if (!month && month !== 0) return null;
@@ -176,7 +169,6 @@ export default function CloudROICalculator() {
     );
     intersectionMessage = `${intersectionContinuous.prevCheaper} is cheaper for ${intersectionLabel}, then ${intersectionContinuous.nextCheaper} is cheaper.`;
   } else {
-    // If no intersection, show which solution is always cheaper
     const finalA = monthlyTotal(
       inputs.a_costPerMonth,
       inputs.a_hoursWorked,
@@ -325,7 +317,6 @@ export default function CloudROICalculator() {
           </div>
           <div className="w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
-              {/* Reduce margins and legend height so plotting area uses more of the SVG; keep space for X label + legend */}
               <LineChart
                 data={chartData}
                 margin={{ top: 4, right: 24, left: 16, bottom: 48 }}
@@ -333,7 +324,6 @@ export default function CloudROICalculator() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis
                   dataKey="month"
-                  // move the label down a bit (positioned in the bottom margin)
                   label={{
                     value: 'Years',
                     position: 'insideBottom',
@@ -420,7 +410,6 @@ export default function CloudROICalculator() {
                 />
               </LineChart>
             </ResponsiveContainer>
-            {/* legend is now part of the chart (in-SVG). */}
           </div>
         </div>
       </main>

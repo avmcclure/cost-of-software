@@ -63,7 +63,7 @@ export default function ROICalculatorPage() {
       <Header />
       <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
         <div className="max-w-3xl w-full bg-white shadow-md rounded-xl p-6 flex flex-col gap-6">
-          <h1 className="text-2xl font-bold text-gray-800">ROI Calculator</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Process Optimization ROI Calculator</h1>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 whitespace-nowrap">
               <span>My process runs</span>

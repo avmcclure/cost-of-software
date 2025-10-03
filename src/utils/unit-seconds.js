@@ -1,4 +1,3 @@
-// Conversion factors for time units in seconds
 import { TimeUnit } from './time-unit';
 
 export const UnitSeconds = {
@@ -7,6 +6,6 @@ export const UnitSeconds = {
   [TimeUnit.HOURS]: 3600,
   [TimeUnit.DAYS]: 86400,
   [TimeUnit.WEEKS]: 604800,
-  [TimeUnit.MONTHS]: 2629746, // avg month ~30.44 days
-  [TimeUnit.YEARS]: 31556952, // avg year ~365.24 days
+  [TimeUnit.MONTHS]: 2629746,
+  [TimeUnit.YEARS]: 31556952,
 };
