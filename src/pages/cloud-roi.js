@@ -158,12 +158,14 @@ export default function CloudROICalculator() {
 
   // Humanize the intersection month
   function humanizeIntersection(month) {
-    if (!month) return null;
-    if (month % 12 === 0) {
-      const years = month / 12;
-      return years === 1 ? '1 year' : `${years} years`;
-    }
-    return `${month} month${month > 1 ? 's' : ''}`;
+    if (month === 0) return 'Now';
+    if (!month && month !== 0) return null;
+    const years = Math.floor(month / 12);
+    const months = month % 12;
+    const parts = [];
+    if (years) parts.push(years === 1 ? '1 year' : `${years} years`);
+    if (months) parts.push(months === 1 ? '1 month' : `${months} months`);
+    return parts.join(' and ');
   }
 
   const intersectionContinuous = findIntersectionContinuous();
@@ -292,7 +294,7 @@ export default function CloudROICalculator() {
               {intersectionMessage}
             </div>
             <div className="text-gray-700 font-semibold mb-2">
-              Total cost for each horizon:
+              Total cost over time
             </div>
             <table className="w-full text-sm mb-2 table-fixed">
               <thead>
