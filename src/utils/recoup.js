@@ -18,7 +18,7 @@ export function humanizeSeconds(seconds) {
   const secs = s % UnitSeconds[TimeUnit.MINUTES];
 
   function pad(n) {
-    return n < 10 ? "\u00A0" + n : String(n);
+    return n < 10 ? '\u00A0' + n : String(n);
   }
 
   const parts = [];
@@ -98,11 +98,18 @@ export default function calculateROI({
   const roi = yearly[3].roi;
   let minRunsForPositiveROI = null;
   let daysUntilPositiveROI = null;
-  if (optSeconds > 0 && saveSeconds > 0 && fv > 0 && UnitSeconds[freqUnit] > 0) {
+  if (
+    optSeconds > 0 &&
+    saveSeconds > 0 &&
+    fv > 0 &&
+    UnitSeconds[freqUnit] > 0
+  ) {
     minRunsForPositiveROI = Math.ceil(optSeconds / saveSeconds);
-    const runsPerDay = UnitSeconds[TimeUnit.DAYS] / UnitSeconds[freqUnit] * fv;
+    const runsPerDay =
+      (UnitSeconds[TimeUnit.DAYS] / UnitSeconds[freqUnit]) * fv;
     daysUntilPositiveROI = minRunsForPositiveROI / runsPerDay;
-    if (!isFinite(daysUntilPositiveROI) || daysUntilPositiveROI < 0) daysUntilPositiveROI = null;
+    if (!isFinite(daysUntilPositiveROI) || daysUntilPositiveROI < 0)
+      daysUntilPositiveROI = null;
   }
   return {
     roi,
