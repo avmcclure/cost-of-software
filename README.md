@@ -1,68 +1,64 @@
 # Cost of Software
 
-- What we'll talk about
-  - Types of costs
-  - How to evaluate costs
-  - Tools for making decisions about and addressing costs
+A collection of tools to help you save some napkins or scratch paper.
 
-- Types of costs
-  - Monetary
-    - Sources
-      - Salaries
-      - Hardware
-      - Licenses
-      - Hosting
-    - How to evaluate
-      - Using arithmetic
-    - Example
-      - Cheaper vs more expensive laptops
-  - Time
-    - Sources
-      - Waiting on things to process/build
-      - Context switching
-      - Missing the target
-    - How to evaluate
-      - Return on investment
-    - Example
-      - Context switching example
-  - Knowledge
-    - Sources
-      - Silos/Distribution
-      - Best/emergent practices
-    - How to evaluate
-      - Could we share knowledge across the team/organization with this?
-      - Could we try a new practice/technology/idea with this?
-    - Example
-      - Least qualified implementer example
-  - Risk
-    - Sources
-      - Security vulnerabilities
-      - Lawsuits
-    - How to evaluate
-      - How could this hurt me?
-      - How could this make me feel more secure?
-    - Example
-      - Choosing an AI provider (indemnification)
-  - Satisfaction
-    - Sources
-      - 2 AM calls
-      - Customer experience
-      - Flakey builds
-      - Boring work
-    - How to evaluate
-      - How will this make my **\_\_\_** feel? (customers/engineers/boss)
-    - Example
-      - Working on a defect vs shipping a new feature
+Partially vibe coded with general apathy by [Alex McClure](https://github.com/avmcclure)
 
-- How to evaluate costs holistically
-  - Determine your value profile
-    - X axis is the 4 categories
-    - Y axis is the relative value (scale 1 to 10)
-  - This is going to change based to a variety of factors
-    - Industry
-    - Financials
-    - Relationships
+## Technologies Used
+- [Gatsby](https://www.gatsbyjs.com/)
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vitest](https://vitest.dev/)
 
-- Holistic Examples
-  - Laptop example
-  - Optimization of cloud infrastructure
+## Getting Started
+
+### Prerequisites
+- Node.js
+- npm or yarn
+
+### Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/cost-of-software.git
+   cd cost-of-software
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+### Running the Development Server
+```sh
+npm run develop
+```
+The app will be available at `http://localhost:8000`.
+
+### Building for Production
+```sh
+npm run build
+```
+
+### Running Tests
+```sh
+npm test
+```
+
+## Project Structure
+```
+├── src/
+│   ├── components/         # React components
+│   ├── pages/              # Gatsby pages
+│   ├── styles/             # Global styles (Tailwind)
+│   └── utils/              # Utility functions
+├── public/                 # Static assets
+├── gatsby-config.js        # Gatsby configuration
+├── tailwind.config.js      # Tailwind configuration
+├── vitest.config.js        # Vitest configuration
+└── Dockerfile              # Container setup
+```
+
+## Contributing
+Pull requests are welcome. I make no guarantees about response time. You can always just fork it too.
+
+## License
+This project is licensed under the WTFPL (Do What The F*ck You Want To Public License). See the LICENSE file for details.
