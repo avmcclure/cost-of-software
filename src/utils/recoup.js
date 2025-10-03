@@ -1,4 +1,3 @@
-// Calculation utilities for recoup time
 import { TimeUnit } from './time-unit';
 import { UnitSeconds } from './unit-seconds';
 
@@ -18,13 +17,17 @@ export function humanizeSeconds(seconds) {
   const minutes = Math.floor(s / UnitSeconds[TimeUnit.MINUTES]);
   const secs = s % UnitSeconds[TimeUnit.MINUTES];
 
+  function pad(n) {
+    return n < 10 ? "\u00A0" + n : String(n);
+  }
+
   const parts = [];
-  if (years) parts.push(`${years}y`);
-  if (months) parts.push(`${months}mo`);
-  if (days) parts.push(`${days}d`);
-  if (hours) parts.push(`${hours}h`);
-  if (minutes) parts.push(`${minutes}m`);
-  if (secs) parts.push(`${secs}s`);
+  if (years) parts.push(`${pad(years)}y`);
+  if (months) parts.push(`${pad(months)}mo`);
+  if (days) parts.push(`${pad(days)}d`);
+  if (hours) parts.push(`${pad(hours)}h`);
+  if (minutes) parts.push(`${pad(minutes)}m`);
+  if (secs) parts.push(`${pad(secs)}s`);
   return parts.join(' ');
 }
 
@@ -36,7 +39,6 @@ export default function calculateROI({
   savingValue,
   savingUnit,
 }) {
-  // sanitize numeric input
   const fv = Number.isFinite(Number(freqValue)) ? Number(freqValue) : 0;
   const ov = Number.isFinite(Number(optValue)) ? Number(optValue) : 0;
   const sv = Number.isFinite(Number(savingValue)) ? Number(savingValue) : 0;
@@ -64,7 +66,6 @@ export default function calculateROI({
       chartData: [],
     };
   }
-
   const savingPerSecond = freqPerSecond * saveSeconds;
   if (!(isFinite(savingPerSecond) && savingPerSecond > 0)) {
     return {
@@ -74,8 +75,6 @@ export default function calculateROI({
       chartData: [],
     };
   }
-
-  // ROI for each horizon: (totalSaved - optSeconds) / optSeconds
   const horizons = [
     { years: 1 / 12, label: '1 month', months: 1 },
     { years: 3 / 12, label: '3 months', months: 3 },
@@ -90,33 +89,21 @@ export default function calculateROI({
     const roi = optSeconds > 0 ? net / optSeconds : null;
     return { label: h.label, years: h.years, totalSaved, net, roi };
   });
-
   const chartData = Array.from({ length: 11 }, (_, i) => {
     const totalSaved = i * UnitSeconds[TimeUnit.YEARS] * savingPerSecond;
     const net = totalSaved - optSeconds;
     const roi = optSeconds > 0 ? net / optSeconds : null;
-    return {
-      year: i,
-      gross: totalSaved / 3600,
-      net: net / 3600,
-      roi,
-    };
+    return { year: i, gross: totalSaved / 3600, net: net / 3600, roi };
   });
-
-  // ROI for 1 year horizon
   const roi = yearly[3].roi;
-
-  // Calculate minimum runs for positive ROI
   let minRunsForPositiveROI = null;
   let daysUntilPositiveROI = null;
   if (optSeconds > 0 && saveSeconds > 0 && fv > 0 && UnitSeconds[freqUnit] > 0) {
     minRunsForPositiveROI = Math.ceil(optSeconds / saveSeconds);
-    // Calculate days until positive ROI
     const runsPerDay = UnitSeconds[TimeUnit.DAYS] / UnitSeconds[freqUnit] * fv;
     daysUntilPositiveROI = minRunsForPositiveROI / runsPerDay;
     if (!isFinite(daysUntilPositiveROI) || daysUntilPositiveROI < 0) daysUntilPositiveROI = null;
   }
-
   return {
     roi,
     message:

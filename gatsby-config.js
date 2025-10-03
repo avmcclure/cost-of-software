@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Recoup Time Calculator`,
-    siteUrl: `https://www.example.com`,
+    title: 'cost-of-software',
   },
-  plugins: ['gatsby-plugin-postcss'],
+  plugins: [
+    'gatsby-plugin-postcss',
+  ],
 };
